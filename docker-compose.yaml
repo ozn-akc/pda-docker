@@ -3,10 +3,19 @@ services:
   mqtt5:
     image: eclipse-mosquitto
     container_name: mqtt5
+    hostname: mosquitto
     ports:
       - "1883:1883" #default mqtt port
       - "9001:9001" #default mqtt port for websockets
     volumes:
-      - ./config:/mosquitto/config:rw
-      - ./data:/mosquitto/data:rw
-      - ./log:/mosquitto/log:rw
+      - ./mqtt-broker-pda/config:/mosquitto/config:rw
+      - ./mqtt-broker-pda/data:/mosquitto/data:rw
+      - ./mqtt-broker-pda/log:/mosquitto/log:rw
+
+volumes:
+  config:
+  data:
+  log:
+networks:
+  default:
+    name: pda_network
