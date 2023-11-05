@@ -2,20 +2,33 @@ version: "3"
 services:
   mqtt5:
     image: eclipse-mosquitto
-    container_name: mqtt5
-    hostname: mosquitto
-    ports:
-      - "1883:1883" #default mqtt port
-      - "9001:9001" #default mqtt port for websockets
+    container_name: mosquitto
+    restart: unless-stopped
     volumes:
       - ./mqtt-broker-pda/config:/mosquitto/config:rw
       - ./mqtt-broker-pda/data:/mosquitto/data:rw
       - ./mqtt-broker-pda/log:/mosquitto/log:rw
-
-volumes:
-  config:
-  data:
-  log:
+    networks:
+      default:
+        ipv4_address: 172.32.0.2
+  rhasspy:
+    image: "rhasspy/rhasspy"
+    container_name: rhasspy
+    restart: unless-stopped
+    volumes:
+      - "$HOME/.config/rhasspy/profiles:/profiles"
+      - "/etc/localtime:/etc/localtime:ro"
+    devices:
+      - "/dev/snd:/dev/snd"
+    command: --user-profiles /profiles --profile de
+  agent:
+    image: "seven/agent"
+    container_name: agent
+    build: ./agent
 networks:
   default:
     name: pda_network
+    ipam:
+      config:
+        - subnet: 172.32.0.0/16
+          gateway: 172.32.0.1
