@@ -2,7 +2,7 @@ version: "3"
 services:
   mqtt5:
     image: eclipse-mosquitto
-    container_name: mosquitto
+    hostname: mosquitto
     restart: unless-stopped
     volumes:
       - ./mqtt-broker-pda/config:/mosquitto/config:rw
@@ -13,7 +13,7 @@ services:
         ipv4_address: 172.32.0.2
   rhasspy:
     image: "rhasspy/rhasspy"
-    container_name: rhasspy
+    hostname: rhasspy
     restart: unless-stopped
     volumes:
       - "$HOME/.config/rhasspy/profiles:/profiles"
@@ -21,10 +21,40 @@ services:
     devices:
       - "/dev/snd:/dev/snd"
     command: --user-profiles /profiles --profile de
+    networks:
+      default:
+        ipv4_address: 172.32.0.3
   agent:
     image: "seven/agent"
-    container_name: agent
+    hostname: agent
     build: ./agent
+    networks:
+      default:
+        ipv4_address: 172.32.0.4
+  news:
+    image: "drenis/news"
+    hostname: news
+    build: ./news
+    networks:
+      default:
+        ipv4_address: 172.32.0.5
+  morning:
+    image: "martin/morning"
+    hostname: morning
+    build: ./morning
+    networks:
+      default:
+        ipv4_address: 172.32.0.7
+  mongo:
+    image: mongo
+    hostname: mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: news_mongo
+    networks:
+      default:
+        ipv4_address: 172.32.0.6
 networks:
   default:
     name: pda_network
