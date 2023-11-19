@@ -51,7 +51,7 @@ services:
     restart: unless-stopped
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: news_mongo
+      MONGO_INITDB_ROOT_PASSWORD: root
     networks:
       default:
         ipv4_address: 172.32.0.6
