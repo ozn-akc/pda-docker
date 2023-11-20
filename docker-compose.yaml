@@ -16,7 +16,7 @@ services:
     hostname: rhasspy
     restart: unless-stopped
     volumes:
-      - "$HOME/.config/rhasspy/profiles:/profiles"
+      - "./profiles:/profiles"
       - "/etc/localtime:/etc/localtime:ro"
     devices:
       - "/dev/snd:/dev/snd"
