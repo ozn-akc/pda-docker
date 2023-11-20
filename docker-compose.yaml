@@ -31,6 +31,11 @@ services:
     networks:
       default:
         ipv4_address: 172.32.0.4
+    depends_on:
+      - mqtt5
+      - news
+      - morning
+      - rhasspy
   news:
     image: "drenis/news"
     hostname: news
@@ -38,6 +43,8 @@ services:
     networks:
       default:
         ipv4_address: 172.32.0.5
+    depends_on:
+      - mongo
   morning:
     image: "martin/morning"
     hostname: morning
