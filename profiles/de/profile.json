@@ -1,7 +1,7 @@
 {
     "intent": {
         "fuzzywuzzy": {
-            "min_confidence": "0.7"
+            "min_confidence": "0.8"
         },
         "system": "fuzzywuzzy"
     }
