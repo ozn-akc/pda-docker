@@ -4,6 +4,8 @@ services:
     image: eclipse-mosquitto
     hostname: mosquitto
     restart: unless-stopped
+    ports:
+      - "1883:1883"
     volumes:
       - ./mqtt-broker-pda/config:/mosquitto/config:rw
       - ./mqtt-broker-pda/data:/mosquitto/data:rw
@@ -15,6 +17,8 @@ services:
     image: "rhasspy/rhasspy"
     hostname: rhasspy
     restart: unless-stopped
+    ports:
+      - "12101:12101"
     volumes:
       - "./profiles:/profiles"
       - "/etc/localtime:/etc/localtime:ro"
@@ -38,18 +42,13 @@ services:
     image: "drenis/news"
     hostname: news
     build: ./news
+    ports:
+      - "1234:1234"
     networks:
       default:
         ipv4_address: 172.32.0.5
     depends_on:
       - mongo
-  morning:
-    image: "martin/morning"
-    hostname: morning
-    build: ./morning
-    networks:
-      default:
-        ipv4_address: 172.32.0.7
   mongo:
     image: mongo
     hostname: mongo
@@ -60,6 +59,15 @@ services:
     networks:
       default:
         ipv4_address: 172.32.0.6
+  morning:
+    image: "martin/morning"
+    hostname: morning
+    build: ./morning
+    ports:
+      - "8080:8080"
+    networks:
+      default:
+        ipv4_address: 172.32.0.7
   spotify:
     image: "tobi/spotify"
     hostname: spotify
