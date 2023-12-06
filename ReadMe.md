@@ -18,23 +18,25 @@ To set up and run the program, follow the steps below:
     Example:
 
     ```bash
-    java -jar your_agent.jar --spring.profiles.active=local
+    gradle build
+    java -jar /folder/agent.jar --spring.profiles.active=local
     ```
-
-    Or if using a script:
-
-    ```bash
-    ./your_agent_script.sh --spring.profiles.active=local
-    ```
-
+    
 ## Setup
 
 Train the Dataset in Rhasspy
 
 ## Local Testing
 
-To test the agent locally, make sure the Docker containers are up and running, and then use the specified MQTT and Rhasspy endpoints mentioned above.
+
+1.  Install Python 3.11 for the IO-Interface.
+
+2. For the Python I/O interface, navigate to the `io-interface/` directory and run the following commands:
+
+    ```bash
+    cd io-interface/
+    pip install -r requirements.txt
+    python3 main.py
+    ```
 
 ```bash
-# Example command for local testing
-java -jar your_agent.jar --spring.profiles.active=local
